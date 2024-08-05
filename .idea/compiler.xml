@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tp2l" />
         <module name="usuario-service" />
+        <module name="consulta-service" />
         <module name="eureka-server" />
       </profile>
     </annotationProcessing>

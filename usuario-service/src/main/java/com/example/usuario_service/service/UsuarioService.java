@@ -11,7 +11,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
-    private final UsuarioService usuarioService;
     private final UsuarioRepository usuarioRepository;
 
     public Usuario create(Usuario usuario) {
