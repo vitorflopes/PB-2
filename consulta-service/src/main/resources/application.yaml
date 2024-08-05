@@ -17,3 +17,15 @@ spring:
     show-sql: false
     database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
+
+  spring:
+    application:
+      name: consulta-service
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+  instance:
+    instance-url:  ${spring.application.name}:${spring.application.instance_id:${random.value}}
