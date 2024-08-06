@@ -1,6 +1,8 @@
 package com.example.usuario_service.controller;
 
+import com.example.usuario_service.exception.ResourceNotFoundException;
 import com.example.usuario_service.model.Usuario;
+import com.example.usuario_service.payload.MessagePayload;
 import com.example.usuario_service.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUsuario(@PathVariable Long id) {
+    public ResponseEntity<?> getUsuario(@PathVariable Integer id) {
         Optional<Usuario> optional = usuarioService.findById(id);
         if (optional.isPresent()) {
             return ResponseEntity.ok(optional.get());
@@ -37,14 +39,22 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        usuarioService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MessagePayload> delete(@PathVariable Integer id) {
+        try {
+            usuarioService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessagePayload("Deletado com sucesso"));
+        }catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
+        }
     }
 
-    @PutMapping()
-    public ResponseEntity<?> update(@RequestBody Usuario usuario) {
-        usuarioService.update(usuario);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<MessagePayload> update(@PathVariable Integer id, @RequestBody Usuario usuario){
+        try {
+            usuarioService.update(id,usuario);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessagePayload("Atualizado com sucesso"));
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(ex.getMessage()));
+        }
     }
 }

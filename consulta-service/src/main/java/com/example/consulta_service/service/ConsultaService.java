@@ -1,5 +1,6 @@
 package com.example.consulta_service.service;
 
+import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.repository.ConsultaRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,23 @@ public class ConsultaService {
     public List<Consulta> findAll() {
         return consultaRepository.findAll();
     }
-    public Optional<Consulta> findById(Long id) {
+    public Optional<Consulta> findById(Integer id) {
+        if (!consultaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário Não Localizado");
+        }
         return consultaRepository.findById(id);
     }
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
+        if (!consultaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário Não Localizado");
+        }
         consultaRepository.deleteById(id);
     }
-    public Consulta update(Consulta consulta) {
-        return consultaRepository.save(consulta);
+    public void update(Integer id, Consulta consulta) {
+        if(!consultaRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Consulta Não Localizado");
+        }
+        consulta.setId(id);
+        consultaRepository.save(consulta);
     }
 }

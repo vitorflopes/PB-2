@@ -1,5 +1,6 @@
 package com.example.usuario_service.service;
 
+import com.example.usuario_service.exception.ResourceNotFoundException;
 import com.example.usuario_service.model.Usuario;
 import com.example.usuario_service.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,13 +20,24 @@ public class UsuarioService {
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
-    public Optional<Usuario> findById(Long id) {
+    public Optional<Usuario> findById(Integer id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário Não Localizado");
+        }
         return usuarioRepository.findById(id);
     }
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário Não Localizado");
+        }
         usuarioRepository.deleteById(id);
     }
-    public Usuario update(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+
+    public void update(Integer id, Usuario usuario) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Usuário Não Localizado");
+        }
+        usuario.setId(id);
+        usuarioRepository.save(usuario);
     }
 }

@@ -1,6 +1,8 @@
 package com.example.consulta_service.controller;
 
+import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
+import com.example.consulta_service.payload.MessagePayload;
 import com.example.consulta_service.service.ConsultaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,7 @@ public class ConsultaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getConsulta(@PathVariable Long id) {
+    public ResponseEntity<?> getConsulta(@PathVariable Integer id) {
         Optional<Consulta> optional = consultaService.findById(id);
         if (optional.isPresent()) {
             return ResponseEntity.ok(optional.get());
@@ -37,14 +39,22 @@ public class ConsultaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        consultaService.deleteById(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MessagePayload> delete(@PathVariable Integer id) {
+        try {
+            consultaService.deleteById(id);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessagePayload("Deletado com sucesso"));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(e.getMessage()));
+        }
     }
 
-    @PutMapping()
-    public ResponseEntity<?> update(@RequestBody Consulta consulta) {
-        consultaService.update(consulta);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<MessagePayload> update(@PathVariable Integer id, @RequestBody Consulta consulta) {
+        try {
+            consultaService.update(id, consulta);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(new MessagePayload("Atualizado com sucesso"));
+        } catch (ResourceNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(ex.getMessage()));
+        }
     }
 }
