@@ -4,6 +4,9 @@ import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.payload.MessagePayload;
 import com.example.consulta_service.service.ConsultaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +21,30 @@ import java.util.Optional;
 public class ConsultaController {
     private final ConsultaService consultaService;
 
+    @Operation(description = "Cadastra consulta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta cadastrada")
+    })
     @PostMapping
     public ResponseEntity<Consulta> createConsulta(@RequestBody Consulta consulta) {
         Consulta saved = consultaService.create(consulta);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
+    @Operation(description = "Retorna consultas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200")
+    })
     @GetMapping
     public ResponseEntity<?> getConsultas() {
         return ResponseEntity.ok(consultaService.findAll());
     }
 
+    @Operation(description = "Retorna consulta por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> getConsulta(@PathVariable Integer id) {
         Optional<Consulta> optional = consultaService.findById(id);
@@ -39,6 +55,11 @@ public class ConsultaController {
         }
     }
 
+    @Operation(description = "Deleta consulta por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta deletada"),
+            @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<MessagePayload> delete(@PathVariable Integer id) {
         try {
@@ -49,6 +70,11 @@ public class ConsultaController {
         }
     }
 
+    @Operation(description = "Atualizar consulta por ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta atualizada"),
+            @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<MessagePayload> update(@PathVariable Integer id, @RequestBody Consulta consulta) {
         try {
