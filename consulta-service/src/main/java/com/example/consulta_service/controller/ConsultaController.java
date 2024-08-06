@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3001", "http://localhost:3000"})
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class ConsultaController {
