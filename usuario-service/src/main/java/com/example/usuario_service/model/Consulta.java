@@ -1,4 +1,4 @@
-package com.example.consulta_service.model;
+package com.example.usuario_service.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,14 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data@AllArgsConstructor@NoArgsConstructor@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Consulta {
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "doctor_id")
     private int doctorId;

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -23,4 +24,6 @@ public class Usuario {
     private String especialidade;
     @ElementCollection
     private List<Integer> consultas;
+    @ElementCollection
+    private List<LocalDate> datasIndisponiveis;
 }

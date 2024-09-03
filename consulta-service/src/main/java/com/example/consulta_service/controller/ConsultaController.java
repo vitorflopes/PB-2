@@ -4,6 +4,7 @@ import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.payload.MessagePayload;
 import com.example.consulta_service.service.ConsultaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,7 +28,12 @@ public class ConsultaController {
     })
     @PostMapping
     public ResponseEntity<Consulta> createConsulta(@RequestBody Consulta consulta) {
-        Consulta saved = consultaService.create(consulta);
+        Consulta saved = null;
+        try {
+            saved = consultaService.create(consulta);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
