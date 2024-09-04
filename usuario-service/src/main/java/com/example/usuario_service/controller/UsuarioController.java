@@ -1,8 +1,11 @@
 package com.example.usuario_service.controller;
 
+import com.example.usuario_service.dto.AuthRequest;
+import com.example.usuario_service.dto.AuthResponse;
 import com.example.usuario_service.exception.ResourceNotFoundException;
 import com.example.usuario_service.model.Usuario;
 import com.example.usuario_service.payload.MessagePayload;
+import com.example.usuario_service.security.JwtService;
 import com.example.usuario_service.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,12 +19,27 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UsuarioController {
     private final UsuarioService usuarioService;
+    private final JwtService jwtService;
 
     @PostMapping
     public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
         Usuario saved = usuarioService.create(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest) {
+        Optional<Usuario> usuarioOptional = usuarioService.findByEmail(authRequest.getLogin());
+
+        if (usuarioOptional.isPresent() && usuarioOptional.get().getSenha().equals(authRequest.getSenha())) {
+            String token = jwtService.generateToken(usuarioOptional.get().getEmail());
+            return ResponseEntity.ok(new AuthResponse(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login ou senha incorretos");
+        }
+    }
+
+
 
     @GetMapping
     public ResponseEntity<?> getUsuarios() {

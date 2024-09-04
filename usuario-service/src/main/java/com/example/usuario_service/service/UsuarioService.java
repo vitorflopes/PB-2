@@ -28,6 +28,7 @@ public class UsuarioService {
         }
         return usuarioRepository.findById(id);
     }
+
     public void deleteById(Integer id) {
         if (!usuarioRepository.existsById(id)) {
             throw new ResourceNotFoundException("Usuário Não Localizado");
@@ -61,5 +62,9 @@ public class UsuarioService {
         usuarioRepository.save(paciente);
 
         return true;
+    }
+
+    public Optional<Usuario> findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 }
