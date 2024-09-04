@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Box,
@@ -10,51 +10,44 @@ import {
     VStack,
     useToast,
     HStack,
-    Stat,
-    StatLabel,
-    StatNumber,
-    StatHelpText,
-    StatArrow,
-    StatGroup,
+    Select,
 } from '@chakra-ui/react';
-import Lottie from 'react-lottie';
-import animationData from '../lottie/login.json';
 import wave from '../wave/wave.svg';
 
-const Login = () => {
+// Importa o JSON das especialidades
+import specialtiesData from '../especialidades.json';
+
+const Register = () => {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isDoctor, setIsDoctor] = useState(false);
+    const [specialty, setSpecialty] = useState('');
+    const [specialties, setSpecialties] = useState([]);
     const navigate = useNavigate();
     const toast = useToast();
+
+    useEffect(() => {
+        setSpecialties(specialtiesData);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        console.log('Name:', name);
         console.log('Email:', email);
         console.log('Password:', password);
+        console.log('Is Doctor:', isDoctor);
+        console.log('Specialty:', specialty);
 
         toast({
-            title: "Login realizado com sucesso!",
+            title: "Conta criada com sucesso!",
             status: "success",
             duration: 3000,
             isClosable: true,
         });
 
         navigate('/consultas');
-    };
-
-    // Configurações da animação Lottie
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice"
-        }
-    };
-
-    const handleRegister = () => {
-        navigate('/register');
     };
 
     return (
@@ -79,28 +72,7 @@ const Login = () => {
                 zIndex: -1,
             }}
         >
-
             <HStack spacing={10} justifyContent="center" alignItems="center" mt={35}>
-
-                <Box maxW='32rem'>
-                    <Heading mb={4}>Bem-vindo ao nosso sistema de agendamento de consultas médicas</Heading>
-                    <Button size='lg' colorScheme="blue" mt='24px' onClick={handleRegister}>
-                        Crie sua conta
-                    </Button>
-                    <StatGroup mt={10}>
-                        <Stat>
-                            <StatLabel>Novos usuários</StatLabel>
-                            <StatNumber>3,670</StatNumber>
-                            <StatHelpText>
-                                <StatArrow type='increase' />
-                                23.36%
-                            </StatHelpText>
-                        </Stat>
-
-
-                    </StatGroup>
-                </Box>
-
                 <Box
                     bg="white"
                     p={6}
@@ -110,7 +82,15 @@ const Login = () => {
                     maxWidth="400px"
                 >
                     <VStack spacing={4} as="form" onSubmit={handleSubmit}>
-                        <Heading as="h2" size="lg" textAlign="center">Login</Heading>
+                        <Heading as="h2" size="lg" textAlign="center">Criar conta</Heading>
+                        <FormControl id="name" isRequired>
+                            <FormLabel>Nome</FormLabel>
+                            <Input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </FormControl>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email</FormLabel>
                             <Input
@@ -120,26 +100,53 @@ const Login = () => {
                             />
                         </FormControl>
                         <FormControl id="password" isRequired>
-                            <FormLabel>Password</FormLabel>
+                            <FormLabel>Senha</FormLabel>
                             <Input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </FormControl>
+                        <FormControl id="userType" isRequired>
+                            <FormLabel>Tipo de usuário</FormLabel>
+                            <Select
+                                value={isDoctor ? 'doctor' : 'patient'}
+                                onChange={(e) => {
+                                    setIsDoctor(e.target.value === 'doctor');
+                                }}
+                            >
+                                <option value="patient">Paciente</option>
+                                <option value="doctor">Médico</option>
+                            </Select>
+                        </FormControl>
+                        {isDoctor && (
+                            <FormControl id="specialty" isRequired>
+                                <FormLabel>Especialidade</FormLabel>
+                                <Select
+                                    value={specialty}
+                                    onChange={(e) => setSpecialty(e.target.value)}
+                                >
+                                    <option value="">Selecione a especialidade</option>
+                                    {specialties.map((spec, index) => (
+                                        <option key={index} value={spec}>
+                                            {spec}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        )}
                         <Button
                             colorScheme="blue"
                             type="submit"
                             width="full"
                         >
-                            Login
+                            Criar Conta
                         </Button>
                     </VStack>
                 </Box>
             </HStack>
-
         </Box>
     );
 };
 
-export default Login;
+export default Register;

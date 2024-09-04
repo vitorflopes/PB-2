@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/Login';
 import Consultas from './components/Consultas';
 import { ChakraProvider } from "@chakra-ui/react";
+import Register from "./components/Register";
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Login/>}/>
                     <Route path="/consultas" element={<Consultas/>}/>
+                    <Route path="/register" element={<Register/>}/>
                 </Routes>
             </div>
         </ChakraProvider>
