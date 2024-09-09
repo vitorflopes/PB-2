@@ -40,7 +40,7 @@ public class ConsultaService {
     }
     public Optional<Consulta> findById(Integer id) {
         if (!consultaRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Usuário Não Localizado");
+            throw new ResourceNotFoundException("Consulta Não Localizada");
         }
         return consultaRepository.findById(id);
     }

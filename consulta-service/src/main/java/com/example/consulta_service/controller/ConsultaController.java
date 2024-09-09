@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @CrossOrigin(origins = {"http://localhost:3001", "http://localhost:3000"})
 @RequestMapping("/")
 @RequiredArgsConstructor
+@Slf4j
 public class ConsultaController {
     private final ConsultaService consultaService;
 
@@ -54,6 +56,7 @@ public class ConsultaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getConsulta(@PathVariable Integer id) {
         Optional<Consulta> optional = consultaService.findById(id);
+        log.error(String.valueOf(optional));
         if (optional.isPresent()) {
             return ResponseEntity.ok(optional.get());
         }else {

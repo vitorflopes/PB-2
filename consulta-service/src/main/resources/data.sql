@@ -1,11 +1,11 @@
-INSERT INTO Consulta (id, paciente_id, data, paciente, consulta_Finalizada, diagnostico)
-VALUES (1, 1, '2024-08-04', 'João', TRUE, 'Dor de cabeça');
+INSERT INTO Consulta (id, doctor_id, paciente_id, consulta_marcada, consulta_finalizada, data, paciente, diagnostico)
+VALUES (1, 4, 1, FALSE, FALSE, '2024-08-04', 'Vitor', 'Dor de Cabeça');
 
-INSERT INTO Consulta (id, paciente_id, data, paciente, consulta_Finalizada, diagnostico)
-VALUES (2, 2, '2024-08-04', 'Maria', FALSE, NULL);
+INSERT INTO Consulta (id, doctor_id, paciente_id, consulta_marcada, consulta_finalizada, data, paciente, diagnostico)
+VALUES (2, 3, 2, FALSE, FALSE, '2024-07-04', 'Igor', 'Febre');
 
-INSERT INTO Consulta (id, paciente_id, data, paciente, consulta_Finalizada, diagnostico)
-VALUES (3, 3, '2024-08-04', 'Carlos', TRUE, 'Gripe');
+INSERT INTO Consulta (id, doctor_id, paciente_id, consulta_marcada, consulta_finalizada, data, paciente, diagnostico)
+VALUES (3, 2, 3, FALSE, FALSE, '2024-06-04', 'Fulano', 'Dor de barriga');
 
-INSERT INTO Consulta (id, paciente_id, data, paciente, consulta_Finalizada, diagnostico)
-VALUES (4, 4, '2024-08-04', 'Ana', FALSE, 'Resfriado');
+INSERT INTO Consulta (id, doctor_id, paciente_id, consulta_marcada, consulta_finalizada, data, paciente, diagnostico)
+VALUES (4, 1, 4, FALSE, FALSE, '2024-05-04', 'Ciclano', 'Pé quebrado');

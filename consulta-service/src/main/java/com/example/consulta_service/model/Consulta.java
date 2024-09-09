@@ -20,7 +20,7 @@ public class Consulta {
     private int pacienteId;
     @Column(name = "consulta_marcada")
     private Boolean consultaMarcada;
-    @Column(name = "consulta_Finalizada")
+    @Column(name = "consulta_finalizada")
     private Boolean consultaFinalizada;
 
     private LocalDate data;
