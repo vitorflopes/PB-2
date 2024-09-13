@@ -24,7 +24,7 @@ import java.util.Optional;
 public class ConsultaController {
     private final ConsultaService consultaService;
 
-    @Operation(description = "Cadastra consulta")
+    @Operation(summary = "Cadastra uma nova consulta", description = "Cadastra uma nova consulta no sistema com os parâmetros passados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Consulta cadastrada")
     })
@@ -39,7 +39,7 @@ public class ConsultaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    @Operation(description = "Retorna consultas")
+    @Operation(summary = "Retornar Consulta", description = "Retorna as consultas do sistema")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200")
     })
@@ -48,7 +48,7 @@ public class ConsultaController {
         return ResponseEntity.ok(consultaService.findAll());
     }
 
-    @Operation(description = "Retorna consulta por ID")
+    @Operation(summary = "Retorna Consulta por ID", description = "Retorna uma consulta específica do sistema por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
@@ -64,7 +64,7 @@ public class ConsultaController {
         }
     }
 
-    @Operation(description = "Deleta consulta por ID")
+    @Operation(summary = "Deletar Consulta", description = "Deleta uma consulta específica do sistema por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Consulta deletada"),
             @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
@@ -79,7 +79,7 @@ public class ConsultaController {
         }
     }
 
-    @Operation(description = "Atualizar consulta por ID")
+    @Operation(summary = "Atualizar Consulta", description = "Atualiza uma consulta específica do sistema por ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Consulta atualizada"),
             @ApiResponse(responseCode = "400", description = "Esse ID não foi encontrado")
