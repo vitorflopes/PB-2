@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: consulta-service
+          uri: lb://CONSULTA-SERVICE
+          filters:
+            - StripPrefix=1
+          predicates:
+            - Path=/consultas/**
+
+server:
+  port: 9999
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
