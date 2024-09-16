@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: PRESCRICAO-SERVICE
+  datasource:
+    url: jdbc:h2:mem:prescricao
+    username: sa
+    password: 123456
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id:
+      ${spring.application.name}:${random.value}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
+server:
+  port: 8086
