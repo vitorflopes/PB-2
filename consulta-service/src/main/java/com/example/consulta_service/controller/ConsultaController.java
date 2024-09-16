@@ -28,7 +28,7 @@ public class ConsultaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Consulta cadastrada")
     })
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Consulta> createConsulta(@RequestBody Consulta consulta) {
         Consulta saved = null;
         try {
@@ -43,7 +43,7 @@ public class ConsultaController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200")
     })
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<?> getConsultas() {
         return ResponseEntity.ok(consultaService.findAll());
     }

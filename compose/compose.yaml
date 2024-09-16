@@ -1,0 +1,7 @@
+services:
+
+
+networks:
+  consultas_medicas:
+    driver:
+      bridge
