@@ -9,10 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="usuario-service" />
         <module name="consulta-service" />
+        <module name="gateway-service" />
+        <module name="prescricao-service" />
+        <module name="javamail" />
         <module name="eureka-server" />
         <module name="gateway" />
-        <module name="gateway-service" />
-        <module name="javamail" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -30,6 +31,7 @@
       <module name="gateway" options="-parameters" />
       <module name="gateway-service" options="-parameters" />
       <module name="javamail" options="-parameters" />
+      <module name="prescricao-service" options="-parameters" />
       <module name="tp2l" options="-parameters" />
       <module name="usuario-service" options="-parameters" />
     </option>

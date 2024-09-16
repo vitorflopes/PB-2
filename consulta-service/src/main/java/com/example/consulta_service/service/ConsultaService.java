@@ -4,6 +4,7 @@ import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.repository.ConsultaRepository;
 import com.example.consulta_service.service.clients.ConsultaClient;
+import com.example.consulta_service.service.clients.PrescricaoClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class ConsultaService {
     private final AmqpTemplate amqpTemplate;
     private final ObjectMapper objectMapper;
     private final ConsultaRepository consultaRepository;
+    private final PrescricaoClient prescricaoClient; // Cliente para o serviço de prescrições
 
     public Consulta create(Consulta consulta) throws JsonProcessingException {
         consulta = consultaRepository.save(consulta);
@@ -56,6 +58,29 @@ public class ConsultaService {
             throw new ResourceNotFoundException("Consulta Não Localizado");
         }
         consulta.setId(id);
+        consultaRepository.save(consulta);
+    }
+
+    public void finalizarConsulta(Integer id) {
+        Optional<Consulta> consultaOpt = consultaRepository.findById(id);
+        if (!consultaOpt.isPresent()) {
+            throw new ResourceNotFoundException("Consulta Não Localizada");
+        }
+
+        Consulta consulta = consultaOpt.get();
+        // Verifica se a consulta já está finalizada
+        if (consulta.getConsultaFinalizada() != null && consulta.getConsultaFinalizada()) {
+            throw new IllegalStateException("A consulta já está finalizada.");
+        }
+
+        // Verifica se há prescrição para a consulta
+        boolean temPrescricao = prescricaoClient.verificarPrescricao(consulta.getId());
+        if (!temPrescricao) {
+            throw new IllegalStateException("A consulta não pode ser finalizada sem uma prescrição.");
+        }
+
+        // Marca a consulta como finalizada
+        consulta.setConsultaFinalizada(true);
         consultaRepository.save(consulta);
     }
 }

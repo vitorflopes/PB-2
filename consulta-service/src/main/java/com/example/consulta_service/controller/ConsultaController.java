@@ -93,4 +93,22 @@ public class ConsultaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessagePayload(ex.getMessage()));
         }
     }
+
+    @Operation(summary = "Finalizar Consulta", description = "Finaliza uma consulta específica do sistema por ID após verificar a prescrição")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Consulta finalizada"),
+            @ApiResponse(responseCode = "400", description = "Não foi possível finalizar a consulta")
+    })
+    @PutMapping("/{id}/finalizar")
+    public ResponseEntity<MessagePayload> finalizarConsulta(@PathVariable Integer id) {
+        try {
+            consultaService.finalizarConsulta(id);
+            return ResponseEntity.status(HttpStatus.OK).body(new MessagePayload("Consulta finalizada com sucesso"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessagePayload(e.getMessage()));
+        }
+    }
+
+
+
 }
