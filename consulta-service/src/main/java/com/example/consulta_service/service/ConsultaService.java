@@ -3,6 +3,7 @@ package com.example.consulta_service.service;
 import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.repository.ConsultaRepository;
+import com.example.consulta_service.service.clients.ConsultaClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
