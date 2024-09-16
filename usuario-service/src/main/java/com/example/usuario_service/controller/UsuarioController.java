@@ -64,7 +64,7 @@ public class UsuarioController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de usuários retornada com sucesso")
     })
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<?> getUsuarios() {
         return ResponseEntity.ok(usuarioService.findAll());
     }

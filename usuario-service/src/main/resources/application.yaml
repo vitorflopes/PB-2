@@ -15,8 +15,20 @@ spring:
     defer-datasource-initialization: true
 
 
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id:
+      ${spring.application.name}:${random.value}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+app:
+  myport: ${PORT:0}
+
 server:
-  port: 8082
+  port: ${app.myport}
 
 
 jwt:

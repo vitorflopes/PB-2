@@ -10,12 +10,25 @@ spring:
             - StripPrefix=1
           predicates:
             - Path=/consulta/**
+        - id: javamail
+          uri: lb://JAVAMAIL
+          filters:
+            - StripPrefix=1
+          predicates:
+            - Path=/javamail/**
+        - id: usuario-service
+          uri: lb://USUARIO-SERVICE
+          filters:
+            - StripPrefix=1
+          predicates:
+            - Path=/usuario/**
 
 server:
   port: 9999
 
 eureka:
   instance:
+    prefer-ip-address: true
     instance-id:
       ${spring.application.name}:${random.value}
   client:
