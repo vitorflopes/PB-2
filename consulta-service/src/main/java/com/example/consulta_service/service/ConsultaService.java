@@ -1,10 +1,14 @@
 package com.example.consulta_service.service;
 
+import com.example.consulta_service.DTO.PrescricaoDTO;
+import com.example.consulta_service.DTO.UsuarioDTO;
 import com.example.consulta_service.exception.ResourceNotFoundException;
 import com.example.consulta_service.model.Consulta;
 import com.example.consulta_service.repository.ConsultaRepository;
 import com.example.consulta_service.service.clients.ConsultaClient;
+import com.example.consulta_service.service.clients.EmailClient;
 import com.example.consulta_service.service.clients.PrescricaoClient;
+import com.example.consulta_service.service.clients.UsuarioClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,8 @@ public class ConsultaService {
     private final ObjectMapper objectMapper;
     private final ConsultaRepository consultaRepository;
     private final PrescricaoClient prescricaoClient; // Cliente para o serviço de prescrições
+    private final EmailClient emailClient; //Client do serviço de email
+    private final UsuarioClient usuarioClient;
 
     public Consulta create(Consulta consulta) throws JsonProcessingException {
         consulta = consultaRepository.save(consulta);
@@ -68,19 +74,26 @@ public class ConsultaService {
         }
 
         Consulta consulta = consultaOpt.get();
-        // Verifica se a consulta já está finalizada
         if (consulta.getConsultaFinalizada() != null && consulta.getConsultaFinalizada()) {
             throw new IllegalStateException("A consulta já está finalizada.");
         }
 
-        // Verifica se há prescrição para a consulta
         boolean temPrescricao = prescricaoClient.verificarPrescricao(consulta.getId());
         if (!temPrescricao) {
             throw new IllegalStateException("A consulta não pode ser finalizada sem uma prescrição.");
         }
 
-        // Marca a consulta como finalizada
+        PrescricaoDTO prescricao = prescricaoClient.obterPrescricaoPorConsultaId(consulta.getId());
+
+        UsuarioDTO usuarioDTO = usuarioClient.getUsuarioById(consulta.getPacienteId());
+        String email = usuarioDTO.getEmail();
+
+        String corpoEmail = "Sua consulta foi finalizada. Detalhes da prescrição:\n\n"
+                + "Medicamento" + prescricao.getMedicamento() + "\n"
+                + "Instruções: " + prescricao.getInstrucoes() + "\n";
+
         consulta.setConsultaFinalizada(true);
         consultaRepository.save(consulta);
+        emailClient.enviarEmail(email,"Consulta Finalizada", corpoEmail);
     }
 }

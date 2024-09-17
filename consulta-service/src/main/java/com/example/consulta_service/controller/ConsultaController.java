@@ -97,7 +97,6 @@ public class ConsultaController {
     @Operation(summary = "Finalizar Consulta", description = "Finaliza uma consulta específica do sistema por ID após verificar a prescrição")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Consulta finalizada"),
-            @ApiResponse(responseCode = "400", description = "Não foi possível finalizar a consulta")
     })
     @PutMapping("/{id}/finalizar")
     public ResponseEntity<MessagePayload> finalizarConsulta(@PathVariable Integer id) {

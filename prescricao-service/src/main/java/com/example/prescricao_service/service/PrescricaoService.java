@@ -21,4 +21,8 @@ public class PrescricaoService {
     public Optional<Prescricao> verificarPrescricao(Integer consultaId) {
         return prescricaoRepository.findByConsultaId(consultaId);
     }
+
+    public Prescricao obterPrescricaoPorConsultaId(Integer consultaId) {
+        return prescricaoRepository.findByConsultaId(consultaId).orElse(null);
+    }
 }
