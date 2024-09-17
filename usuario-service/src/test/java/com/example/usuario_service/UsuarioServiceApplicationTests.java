@@ -3,12 +3,17 @@ package com.example.usuario_service;
 import com.example.usuario_service.model.Usuario;
 import com.example.usuario_service.repository.UsuarioRepository;
 import com.example.usuario_service.service.UsuarioService;
+import jakarta.validation.constraints.Null;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +36,14 @@ class UsuarioServiceApplicationTests {
 		Usuario usuario = new Usuario();
 		usuario.setNome("João");
 		usuario.setEmail("joao@example.com");
+		usuario.setSenha("123456");
+		usuario.setDoctor(false);
+		usuario.setEspecialidade("paciente");
+		usuario.setConsultas(List.of(1, 2));
+		usuario.setDatasIndisponiveis(List.of(
+				LocalDate.of(2024, 9, 16),
+				LocalDate.of(2024, 9, 17)
+		));
 		usuarioService.create(usuario);
 
 		all = usuarioService.findAll();
