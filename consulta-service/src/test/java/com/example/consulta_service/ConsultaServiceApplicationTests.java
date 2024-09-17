@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 class ConsultaServiceApplicationTests {
 
-    /*
 	@Autowired
 	private ConsultaService consultaService;
 
@@ -31,9 +30,12 @@ class ConsultaServiceApplicationTests {
 		int estadoInicial = all.size();
 
 		Consulta consulta = new Consulta();
+        consulta.setDoctorId(1);
+        consulta.setPaciente(null);
+        consulta.setConsultaMarcada(true);
+        consulta.setConsultaFinalizada(false);
 		consulta.setData(LocalDate.of(2024, 6, 17));
-		consulta.setPaciente(null);
-		consulta.setConsultaFinalizada(true);
+        consulta.setPaciente("Joao");
 		consulta.setDiagnostico("Gripe");
 		consultaService.create(consulta);
 
@@ -59,5 +61,4 @@ class ConsultaServiceApplicationTests {
 		assertEquals(savedConsulta.getId(), consultaCadastrada.get().getId());
 		assertEquals(savedConsulta.getDiagnostico(), consultaCadastrada.get().getDiagnostico());
 	}
-	 */
 }
