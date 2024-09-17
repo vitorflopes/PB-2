@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 class ConsultaServiceApplicationTests {
 
-	/*
+
 	@Autowired
 	private ConsultaService consultaService;
 
@@ -60,5 +60,5 @@ class ConsultaServiceApplicationTests {
 		assertEquals(savedConsulta.getDiagnostico(), consultaCadastrada.get().getDiagnostico());
 	}
 
-	 */
+
 }

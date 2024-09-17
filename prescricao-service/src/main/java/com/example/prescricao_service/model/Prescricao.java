@@ -22,6 +22,5 @@ public class Prescricao {
     private String medicamento;
     private String instrucoes;
     private LocalDate dataPrescricao;
-
     private Integer medicoId;
 }

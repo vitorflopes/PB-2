@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data@AllArgsConstructor@NoArgsConstructor@Builder
 @Entity
 public class Consulta {
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
     @Column(name = "doctor_id")
