@@ -24,8 +24,8 @@ public class ConsultaService {
     private final AmqpTemplate amqpTemplate;
     private final ObjectMapper objectMapper;
     private final ConsultaRepository consultaRepository;
-    private final PrescricaoClient prescricaoClient; // Cliente para o serviço de prescrições
-    private final EmailClient emailClient; //Client do serviço de email
+    private final PrescricaoClient prescricaoClient;
+    private final EmailClient emailClient;
     private final UsuarioClient usuarioClient;
 
     public Consulta create(Consulta consulta) throws JsonProcessingException {

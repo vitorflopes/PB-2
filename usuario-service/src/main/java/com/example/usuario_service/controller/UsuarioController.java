@@ -76,10 +76,10 @@ public class UsuarioController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<?> getUsuario(@PathVariable Integer id) {
-        Optional<Usuario> optional = usuarioService.findById(id);
-        if (optional.isPresent()) {
+        try {
+            Optional<Usuario> optional = usuarioService.findById(id);
             return ResponseEntity.ok(optional.get());
-        } else {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

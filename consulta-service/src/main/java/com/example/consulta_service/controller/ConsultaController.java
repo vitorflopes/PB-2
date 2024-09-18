@@ -55,11 +55,10 @@ public class ConsultaController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<?> getConsulta(@PathVariable Integer id) {
-        Optional<Consulta> optional = consultaService.findById(id);
-        log.error(String.valueOf(optional));
-        if (optional.isPresent()) {
+        try {
+            Optional<Consulta> optional = consultaService.findById(id);
             return ResponseEntity.ok(optional.get());
-        }else {
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

@@ -14,7 +14,7 @@ public class EmailClient {
     private final RestTemplate restTemplate;
 
     public void enviarEmail(String recipient, String subject, String body) {
-        String url = "http://localhost:8085/emails/send";  // Ajuste a URL conforme seu serviço de email
+        String url = "http://JAVAMAIL:8085/emails/send";
 
         Map<String, String> emailData = new HashMap<>();
         emailData.put("recipient", recipient);

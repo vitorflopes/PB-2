@@ -1,4 +1,74 @@
 services:
+  eureka:
+    container_name: EUREKA-SERVER
+    build:
+      context: C:\DEV\Faculdade\ProjetoBloco\eureka-server\docker\
+    ports:
+      - "8761:8761"
+    networks:
+      - consultas_medicas
+
+  rabbit:
+    container_name: RABBIT-SERVER
+    image: rabbitmq:3.13-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - eureka
+
+  gateway:
+    container_name: GATEWAY-SERVICE
+    image: pb/gateway-service:latest
+    ports:
+      - "9999:9999"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - rabbit
+
+  consulta:
+    container_name: CONSULTA-SERVICE
+    image: pb/consulta-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - gateway
+
+  usuario:
+    container_name: USUARIO-SERVICE
+    image: pb/usuario-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - gateway
+
+  javamail:
+    container_name: JAVAMAIL
+    image: pb/javamail:latest
+    ports:
+      - "8085:8085"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - gateway
+
+  prescricao:
+    container_name: PRESCRICAO-SERVICE
+    image: pb/prescricao-service:latest
+    ports:
+      - "8086:8086"
+    networks:
+      - consultas_medicas
+    depends_on:
+      - gateway
+
 
 
 networks:
